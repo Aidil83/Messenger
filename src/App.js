@@ -3,6 +3,7 @@ import './App.css';
 import { Button, InputLabel, Input, FormControl } from '@material-ui/core';
 import Message from './Message';
 import db from './firebase';
+import firebase from 'firebase';
 
 function App() {
 	const [input, setInput] = useState('');
@@ -10,9 +11,11 @@ function App() {
 	const [username, setUsername] = useState('');
 
 	useEffect(() => {
-		db.collection('messages').onSnapshot((snapshot) => {
-			setMessages(snapshot.docs.map((doc) => doc.data()));
-		});
+		db.collection('messages')
+			.orderBy('timestamp', 'asc')
+			.onSnapshot((snapshot) => {
+				setMessages(snapshot.docs.map((doc) => doc.data()));
+			});
 	}, []);
 
 	useEffect(() => {
@@ -21,7 +24,11 @@ function App() {
 
 	const sendMessage = (event) => {
 		event.preventDefault();
-		setMessages([...messages, { username, text: input }]);
+		db.collection('messages').add({
+			message: input,
+			username: username,
+			timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+		});
 		setInput('');
 	};
 
