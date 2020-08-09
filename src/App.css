@@ -4,6 +4,7 @@ body::-webkit-scrollbar {
 
 .App {
 	text-align: center;
+	margin-top: 15px;
 }
 
 .app__form {
@@ -12,8 +13,10 @@ body::-webkit-scrollbar {
 	bottom: 0;
 	z-index: 1;
 	background-color: #e9e9eb;
-	width: 100%;
+	width: 90%;
 	margin: 20px;
+	left: 50px;
+	border-radius: 10px;
 }
 
 .app__formControl {
